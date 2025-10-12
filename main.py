@@ -6,7 +6,7 @@ class ChecklistApp(tk.Tk):
         super().__init__()
         self.title("Checklist")
         self.geometry("450x500")
-        self.configure(bg="#f2f2f2")
+        self.configure(bg="#78d0d8")
 
         self.tasks = {}
 
@@ -22,13 +22,13 @@ class ChecklistApp(tk.Tk):
         self.tasks_frame.pack(fill="both", expand=True)
 
 
-        bottom = tk.Frame(self, bg="#f2f2f2")
+        bottom = tk.Frame(self, bg="#78d0d8")
         bottom.pack(fill="x", pady=5)
-        self.btn_done = tk.Button(bottom, text="✓ Done", command=self.mark_done, bg="#4CAF50", fg="white", width=10)
+        self.btn_done = tk.Button(bottom, text="✓ Done", command=self.mark_done, bg="#63FA93", fg="white", width=10)
         self.btn_done.pack(side="left", padx=10)
         self.btn_delete = tk.Button(bottom, text="🗑 Delete", command=self.delete_selected, bg="#f44336", fg="white", width=10)
         self.btn_delete.pack(side="left", padx=10)
-        self.btn_clear = tk.Button(bottom, text="🧹 Clear All", command=self.clear_all, bg="#607D8B", fg="white", width=10)
+        self.btn_clear = tk.Button(bottom, text="🧹 Clear All", command=self.clear_all, bg="#8DC4DF", fg="white", width=10)
         self.btn_clear.pack(side="right", padx=10)
 
     def add_task(self):
