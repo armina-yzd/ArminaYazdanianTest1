@@ -29,6 +29,12 @@ class ChecklistApp(tk.Tk):
         self.entry_task.pack(side="left", fill="x", expand=True, padx=(0, 10))
         self.entry_task.bind("<Return>", lambda e: self.add_task())
         
+        self.category_var = tk.StringVar(value="🏠 Home")
+        self.categories = ["🏠 Home", "💼 Work", "🎮 Game", "🛒 Shopping", "📚 Study", "⚽ Sport"]
+        category_menu = ttk.OptionMenu(input_frame, self.category_var, self.categories[0], *self.categories)
+        category_menu.config(width=12)
+        category_menu.pack(side="left", padx=(0, 10))
+        
         add_btn = ttk.Button(input_frame, text="➕ Add Task", command=self.add_task, style="Custom.TButton")
         add_btn.pack(side="left")
         
@@ -55,6 +61,7 @@ class ChecklistApp(tk.Tk):
 
     def add_task(self):
         task_text = self.entry_task.get().strip()
+        category = self.category_var.get()
         if not task_text:
             messagebox.showwarning("Input Required", "Please enter a task description!")
             return
@@ -68,8 +75,22 @@ class ChecklistApp(tk.Tk):
         check_btn = ttk.Checkbutton(task_frame, variable=var)
         check_btn.pack(side="left", padx=8)
         
+        category_colors = {
+            "🏠 Home": "#3498db",
+            "💼 Work": "#e74c3c", 
+            "🎮 Game": "#9b59b6",
+            "🛒 Shopping": "#f39c12",
+            "📚 Study": "#2ecc71",
+            "⚽ Sport": "#1abc9c"
+        }
+        
+        category_badge = tk.Label(task_frame, text=category, font=("Arial", 8, "bold"),
+                                 bg=category_colors.get(category, "#95a5a6"), fg="white",
+                                 padx=6, pady=2, relief="flat", bd=0)
+        category_badge.pack(side="left", padx=(0, 8))
+        
         task_label = ttk.Label(task_frame, text=task_text, font=("Arial", 11), 
-                              background="white", width=35, anchor="w")
+                              background="white", width=25, anchor="w")
         task_label.pack(side="left", fill="x", expand=True, padx=5, pady=8)
         
         datetime_label = ttk.Label(task_frame, text="", foreground="#7f8c8d", 
@@ -88,14 +109,17 @@ class ChecklistApp(tk.Tk):
         task_label.bind("<Button-1>", toggle_task)
         status_label.bind("<Button-1>", toggle_task)
         datetime_label.bind("<Button-1>", toggle_task)
+        category_badge.bind("<Button-1>", toggle_task)
         
         self.tasks[task_frame] = {
             "text": task_text, 
+            "category": category,
             "done": False, 
             "var": var, 
             "label": task_label, 
             "status": status_label,
-            "datetime": datetime_label
+            "datetime": datetime_label,
+            "badge": category_badge
         }
 
     def mark_done(self):
